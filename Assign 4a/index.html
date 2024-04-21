@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Travel Website</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom CSS */
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .destination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .destination {
+            margin: 0 10px;
+            text-align: center;
+        }
+        
+        .destination img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+        /* Header styles */
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Travel Website</h1>
+    </header>
+
+    <div class="destination-container">
+        <!-- Paris Destination -->
+        <div class="destination">
+            <a href="page1.html">
+                <img src="https://www.visa.co.in/dam/VCOM/regional/ap/images/travel-with-visa/paris/marquee-travel-paris-800x450.jpg" alt="Paris">
+            </a>
+            <p><a href="page1.html">Click Here</a> to explore Paris</p>
+        </div>
+
+        <!-- Review Dialog -->
+        <div class="destination">
+            <button id="openDialog">Give Review</button>
+        </div>
+    </div>
+
+    <div class="destination-container">
+        <!-- New York Destination -->
+        <div class="destination">
+            <a href="page.html">
+                <img src="https://a.travel-assets.com/findyours-php/viewfinder/images/res70/471000/471588-New-York.jpg" alt="New York" width="800">
+            </a>
+            <p><a href="page.html">Click Here</a> to explore New York</p>
+        </div>
+
+        <!-- Review Dialog -->
+        <div class="destination">
+            <button id="openDialog">Give Review</button>
+        </div>
+    </div>
+
+    <!-- Review Dialog -->
+    <div data-role="page" id="reviewDialog" style="display: none;">
+        <div data-role="header">
+            <h1>Leave a Review</h1>
+        </div>
+        <div role="main" class="ui-content">
+            <form>
+                <label for="rating">Rating:</label>
+                <input type="range" name="rating" id="rating" min="1" max="5" value="5">
+                <label for="comment">Comment:</label>
+                <textarea cols="40" rows="8" name="comment" id="comment"></textarea>
+                <button type="submit" data-rel="back">Submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).on("pagecreate", function() {
+            $(".destination button").on("click", function() {
+                $("#reviewDialog").show().popup("open");
+            });
+        });
+    </script>
+
+</body>
+
+<footer>
+    <div class="row">
+        <div class="col-md-6">
+            <p>Discover the world with our comprehensive travel guides and expert recommendations. Let us help you plan your next adventure!</p>
+        </div>
+        <div class="col-md-6">
+            <h4>Connect With Us</h4>
+
+            <a href="#" target="_blank"><i class="fa fa-facebook"></i>facebook</a>
+            <a href="#" target="_blank"><i class="fa fa-twitter"></i>twitter</a>
+            <a href="#" target="_blank"><i class="fa fa-instagram"></i>instagram</a>
+            <a href="#" target="_blank"><i class="fa fa-pinterest"></i>pinterest</a>
+
+            <p>Stay connected with us on social media for travel inspiration, deals, and updates.</p>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center">© 2024 Your Travel Website. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+</div>
+
+
+
+</html>

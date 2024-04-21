@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Travel Website</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom CSS */
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        
+        .destination-image-container {
+            position: relative;
+            height: 400px;
+            /* Set a fixed height */
+            width: 100%;
+            /* Ensure container takes full width */
+            overflow: hidden;
+            /* Hide the scrollbar */
+            margin-bottom: 20px;
+            /* Add some space at the bottom for arrows */
+            text-align: center;
+            /* Center arrows horizontally */
+        }
+        
+        .destination-image {
+            max-width: none;
+            /* Ensure image doesn't scale */
+            max-height: none;
+            /* Allow image to maintain its original height */
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .scroll-arrow {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+            z-index: 1;
+            /* Ensure arrows are above the image */
+            display: block;
+            /* Initially show arrows */
+        }
+        
+        .scroll-arrow.top {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            /* Ensure top arrow is above bottom arrow */
+        }
+        
+        .scroll-arrow.bottom {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .scroll-arrow.left {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+        
+        .scroll-arrow.right {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        
+        footer {
+            text-align: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+</head>
+
+<body>
+
+    <div data-role="page" id="paris">
+        <div data-role="header" data-theme="b">
+            <h1>New York</h1>
+            <a href="index.html">Home</a>
+        </div>
+        <div data-role="content">
+            <!-- Paris page content -->
+            <div class="destination-image-container" id="imageContainer">
+                <img src="https://media.nomadicmatt.com/2022/newnycguidemain.jpeg" alt="New York" class="destination-image">
+                <div class="scroll-arrow top">&#9650;</div>
+                <div class="scroll-arrow bottom">&#9660;</div>
+                <div class="scroll-arrow left">&#9668;</div>
+                <div class="scroll-arrow right">&#9658;</div>
+            </div>
+            <div class="destination-description">
+                <p>New York City, the most populous city in the United States, is a hub of culture, arts, and entertainment.</p>
+                <p>Explore famous attractions such as the Statue of Liberty, Central Park, Times Square, and the Metropolitan Museum of Art.</p>
+                <p>Experience the energy and diversity of the Big Apple, where dreams are made of.</p>
+            </div>
+        </div>
+        <button onclick="navigateToPage()">Go to Previous Page</button>
+        <div data-role="footer" data-theme="b">
+            <footer class="site-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p>Discover the world with our comprehensive travel guides and expert recommendations. Let us help you plan your next adventure!</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Connect With Us</h4>
+
+                            <a href="#" target="_blank"><i class="fa fa-facebook"></i>facebook</a>
+                            <a href="#" target="_blank"><i class="fa fa-twitter"></i>twitter</a>
+                            <a href="#" target="_blank"><i class="fa fa-instagram"></i>instagram</a>
+                            <a href="#" target="_blank"><i class="fa fa-pinterest"></i>pinterest</a>
+
+                            <p>Stay connected with us on social media for travel inspiration, deals, and updates.</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="text-center">© 2024 Your Travel Website. All rights reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        function navigateToPage() {
+            window.location.href = 'index.html';
+        }
+        $(document).on("pagecreate", function() {
+            var container = $("#imageContainer")[0];
+            var hammertime = new Hammer(container);
+
+            // Initialize scroll position
+            container.scrollTop = 0;
+            container.scrollLeft = 0;
+
+            // Attach event listeners for scrolling
+            var onScroll = function(e) {
+                if (e.originalEvent.detail.x !== 0 || e.originalEvent.detail.y !== 0) {
+                    e.preventDefault();
+                }
+            };
+
+            container.addEventListener("mousewheel", onScroll, {
+                passive: false
+            });
+            container.addEventListener("DOMMouseScroll", onScroll, {
+                passive: false
+            });
+
+            // Get initial image dimensions
+            var img = $(".destination-image")[0];
+            var imgWidth = img.naturalWidth;
+            var imgHeight = img.naturalHeight;
+
+            // Prevent scrolling past the image boundaries
+            function clampScroll(type) {
+                var maxScroll =
+                    Math.max(
+                        0,
+                        img[type === "horizontal" ? "width" : "height"] -
+                        container[type === "horizontal" ? "clientWidth" : "clientHeight"]
+                    );
+                container[type === "horizontal" ? "scrollLeft" : "scrollTop"] = Math.min(
+                    maxScroll,
+                    container[type === "horizontal" ? "scrollLeft" : "scrollTop"]
+                );
+            }
+
+            // Update scrolling boundaries
+            function updateScrollingBoundaries() {
+                clampScroll("horizontal");
+                clampScroll("vertical");
+            }
+
+            // Set scrolling boundaries
+            updateScrollingBoundaries();
+
+            // Attach event listeners for scrolling arrows
+            $(".scroll-arrow.top").on("click tap", function() {
+                container.scrollTop -= container.clientHeight;
+                updateScrollingBoundaries();
+            });
+            $(".scroll-arrow.bottom").on("click tap", function() {
+                container.scrollTop += container.clientHeight;
+                updateScrollingBoundaries();
+            });
+            $(".scroll-arrow.left").on("click tap", function() {
+                container.scrollLeft -= container.clientWidth;
+                updateScrollingBoundaries();
+            });
+            $(".scroll-arrow.right").on("click tap", function() {
+                container.scrollLeft += container.clientWidth;
+                updateScrollingBoundaries();
+            });
+
+            // Attach event listeners for scrolling with mouse
+            $(container).on("mousemove", function(event) {
+                var containerWidth = $("#imageContainer").width();
+                var containerHeight = $("#imageContainer").height();
+                var containerScrollLeft = $("#imageContainer").scrollLeft();
+                var containerScrollTop = $("#imageContainer").scrollTop();
+
+                var imgWidth = $(".destination-image").width();
+                var imgHeight = $(".destination-image").height();
+
+                // Scroll horizontally when the mouse pointer is moved left or right
+                if (event.pageX < containerWidth / 2) {
+                    // Move to the left
+                    container.scrollLeft = Math.max(0, containerScrollLeft - (event.pageX / containerWidth) * (imgWidth - containerWidth));
+                } else {
+                    // Move to the right
+                    container.scrollLeft = Math.min(imgWidth - containerWidth, containerScrollLeft + (event.pageX / containerWidth) * (imgWidth - containerWidth));
+                }
+
+                // Scroll vertically when the mouse pointer is moved up or down
+                if (event.pageY < containerHeight / 2) {
+                    // Move up
+                    container.scrollTop = Math.max(0, containerScrollTop - (event.pageY / containerHeight) * (imgHeight - containerHeight));
+                } else {
+                    // Move down
+                    container.scrollTop = Math.min(imgHeight - containerHeight, containerScrollTop + (event.pageY / containerHeight) * (imgHeight - containerHeight));
+                }
+            });
+
+            // Prevent default behavior of touch gestures
+            hammertime.get("swipe").set({
+                direction: Hammer.DIRECTION_ALL
+            });
+            hammertime.on("swipeup swipedown swipeleft swiperight", function(event) {
+                event.preventDefault();
+            });
+        });
+    </script>
+
+</body>
+
+</html>
